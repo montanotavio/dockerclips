@@ -2,13 +2,28 @@
 from django.shortcuts import render
 from django.conf import settings
 from .models import VideoClip
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hashlib import sha256 as hasher
 import time,os
 
 # Create your views here.
 def home(request):
 	current_time = time.strftime('%B %-d, %Y %-I:%M:%S %p', time.localtime())
-	return render(request, 'home.html', {'time':current_time})
+	allVideoClips = VideoClip.objects.order_by('epoch').reverse().all()
+	# get files in dir
+	filenames = os.listdir(settings.MEDIA_ROOT)
+	# sort by modification time
+	filenames.sort(key=lambda fn: os.path.getmtime(os.path.join(settings.MEDIA_ROOT, fn)), reverse=True)
+
+	page = request.GET.get('page', 1)
+	paginator = Paginator(allVideoClips, 3)
+	try:
+		videoClips = paginator.page(page)
+	except PageNotAnInteger:
+		videoClips = paginator.page(1)
+	except EmptyPage:
+		videoClips = paginator.page(paginator.num_pages)
+	return render(request, 'home.html', {'time':current_time, 'videoClips':videoClips})
 
 def upload(request):
 	if request.method == 'POST':
