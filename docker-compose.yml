@@ -4,10 +4,13 @@ services:
   app:
     build:
       context: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     ports:
       - 8000:8000
     volumes:
       - ./app:/app
-    environment:
-      - SELCRET_KEY=devsupersecretkey
-      - DEBUG=1
+      - ./data/web:/vol/web
+    env_file:
+      - ./.env

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<script type='text/javascript'>
+	
+	function calcFileEpoch() {
+		input = document.getElementById("filename");
+		epoch = document.getElementById("epoch");
+		epoch.setAttribute("value", input.files[0].lastModified)
+		// console.log(msg);
+	}
+
+	</script>
+		<div class="container">
+
+		  <!--Upload Form-->
+		<h2 class="my-4">Add a new clip</h2>
+			{% if wrong_password %}
+				<p class="text-danger">Wrong passphrase submitted: Try again or request passphrase from admin</p>
+		  	{% endif %}
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input id="filename" type="file" class="pb-2" name="upload" accept=".mp4">
+			<input id="epoch" type="hidden" name="epoch">
+			<input id="passphrase" type="password" name="passphrase" class="form-control w-25" placeholder="Passphrase">
+			<button class="btn btn-dark my-4" type="submit" onClick="calcFileEpoch();">Submit</button>
+		</form>
+
+		  <!--Notify Clip Uploaded-->
+		<h2 class="my-4">Video Clip</h2>
+			{% if file_submitted %}
+					<p>File Submitted Successfully</p><br>
+					<div class="mx-auto pb-5 w-75">
+						<div class="d-flex justify-content-between bg-light">
+							<h5 class="fw-bold"><u>{{video.title}}</u></h5>
+							<h5 class="fst-italic fw-lighter">Clipped on {{video.date}} by {{video.uploader}}</h5>
+						</div>
+						<video class="w-100" preload="metadata" controls>
+							<source src="{{ video.file.url }}" type="video/mp4"> </source>
+						</video>
+					</div>
+					<a class="btn btn-dark my-4" href="{% url 'home' %}">Return to Homepage</a>
+			{% else %}
+				<p>No clips added</p>
+			{% endif %}
+
+		</div>
+	
+
+{% endblock %}
