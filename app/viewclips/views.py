@@ -31,11 +31,8 @@ def upload(request):
 		salt = os.environ.get('HASH_SALT')
 		authPassphrase = os.environ.get('SHA256_PASS')
 		passphrase = request.POST['passphrase']
-		print(f'salt is: {salt}')
 		hashedPassphrase = str(hasher((str(passphrase)+str(salt)).encode('utf-8')).hexdigest())
 		if not passphrase or authPassphrase != hashedPassphrase:
-			print(authPassphrase)
-			print(hashedPassphrase)
 			return render(request, 'upload.html', {'wrong_password': True})
 
 		# save file with unique filename from hashing
@@ -58,7 +55,6 @@ def upload(request):
 				date = time.strftime('%B %-d, %Y %-I:%M %p', time.localtime(epoch))
 				newVideoClip = VideoClip(title=title,date=date,epoch=epoch,filename=filename,file=video)
 				newVideoClip.save()
-				print(settings.MEDIA_ROOT)
 			return render(request, 'upload.html', {'file_submitted': True, 'video': newVideoClip})
 	return render(request, 'upload.html')
 
