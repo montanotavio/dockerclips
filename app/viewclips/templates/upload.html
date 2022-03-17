@@ -8,7 +8,9 @@
 		input = document.getElementById("filename");
 		epoch = document.getElementById("epoch");
 		epoch.setAttribute("value", input.files[0].lastModified)
-		// console.log(msg);
+		
+		document.getElementById("button").classList.add("d-none")
+		document.getElementById("spinner").classList.remove("d-none")
 	}
 
 	</script>
@@ -24,8 +26,12 @@
 			<input id="filename" type="file" class="pb-2" name="upload" accept=".mp4">
 			<input id="epoch" type="hidden" name="epoch">
 			<input id="passphrase" type="password" name="passphrase" class="form-control w-25" placeholder="Passphrase">
-			<button class="btn btn-dark my-4" type="submit" onClick="calcFileEpoch();">Submit</button>
+			<button id="button" class="btn btn-dark my-4" type="submit" onClick="calcFileEpoch();">Submit</button>
 		</form>
+
+		<div id="spinner" class="spinner-border my-4 d-none" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 
 		  <!--Notify Clip Uploaded-->
 		<h2 class="my-4">Video Clip</h2>

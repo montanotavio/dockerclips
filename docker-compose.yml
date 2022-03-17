@@ -15,7 +15,7 @@ services:
       - mediafiles:/vol/web/media
     environment:
       - SECRET_KEY=${SECRET_KEY}
-      - DEBUG=1
+      - DEBUG=${DEBUG}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - SHA256_PASS=${SHA256_PASS}
       - HASH_SALT=${HASH_SALT}
