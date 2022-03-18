@@ -12,7 +12,7 @@ services:
       - 8000:8000
     volumes:
       - ./app:/app
-      - mediafiles:/vol/web/media
+      - ./data/web:/vol/web
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG}
@@ -21,22 +21,28 @@ services:
       - HASH_SALT=${HASH_SALT}
       - TRUSTED_ORIGINS=${TRUSTED_ORIGINS}
       - DB_HOST=db
-      - DB_NAME=${POSTGRES_DB}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - db
 
   db: 
     image: postgres:14-alpine
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
 
-volumes:
-  mediafiles:
-    driver_opts:
-      type: cifs
-      o: username=${SMB_USER},password=${SMB_PASS},uid=${GUID},gid=${GUID},vers=3.0
-      device: ${MEDIAFILES_PATH}
+# volumes:
+#   mediafiles:
+#     driver_opts:
+#       type: cifs
+#       o: username=${SMB_USER},password=${SMB_PASS},uid=${GUID},gid=${GUID},vers=3.0
+#       device: ${MEDIAFILES_PATH}
+
+#   staticfiles:
+#     driver_opts:
+#       type: cifs
+#       o: username=${SMB_USER},password=${SMB_PASS},uid=${GUID},gid=${GUID},vers=3.0
+#       device: ${STATICFILES_PATH}

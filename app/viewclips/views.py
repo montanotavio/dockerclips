@@ -28,7 +28,7 @@ def home(request):
 def upload(request):
 	if request.method == 'POST':
 		# verify correct passphrase
-		salt = os.environ.get('HASH_SALT')
+		salt = os.environ.get('HASH_SALT') if os.environ.get('HASH_SALT') else ''
 		authPassphrase = os.environ.get('SHA256_PASS')
 		passphrase = request.POST['passphrase']
 		hashedPassphrase = str(hasher((str(passphrase)+str(salt)).encode('utf-8')).hexdigest())
