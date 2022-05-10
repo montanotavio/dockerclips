@@ -13,6 +13,11 @@
 		document.getElementById("spinner").classList.remove("d-none")
 	}
 
+	function copyLink(path) {
+		navigator.clipboard.writeText(window.location.protocol + '//' + window.location.host + path)
+		document.getElementById("copy").innerText = "Copied!"
+	}
+
 	</script>
 		<div class="container">
 
@@ -23,7 +28,7 @@
 		  	{% endif %}
 		<form method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			<input id="filename" type="file" class="pb-2" name="upload" accept=".mp4">
+			<input id="filename" type="file" class="pb-2" name="upload" accept=".mp4,.webm,.mkv">
 			<input id="epoch" type="hidden" name="epoch">
 			<input id="passphrase" type="password" name="passphrase" class="form-control w-25" placeholder="Passphrase">
 			<button id="button" class="btn btn-dark my-4" type="submit" onClick="calcFileEpoch();">Submit</button>
@@ -46,7 +51,8 @@
 							<source src="{{ video.file.url }}" type="video/mp4"> </source>
 						</video>
 					</div>
-					<a class="btn btn-dark my-4" href="{% url 'home' %}">Return to Homepage</a>
+					<a id="copy" class="btn btn-dark my-4" onClick="copyLink('{{video.file.url}}')">Copy Video Link</a>
+					<a id="home" class="btn btn-dark my-4" href="{% url 'home' %}">Return to Homepage</a>
 			{% else %}
 				<p>No clips added</p>
 			{% endif %}

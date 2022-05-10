@@ -38,7 +38,7 @@ def upload(request):
 		# save file with unique filename from hashing
 		if request.FILES['upload']:
 			video = request.FILES['upload']
-			title = video.name[:-4]
+			title=os.path.splitext(video.name)[0]
 
 			# epoch given in ms, so convert to seconds
 			epoch = request.POST['epoch']
