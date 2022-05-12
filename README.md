@@ -1,7 +1,7 @@
 # Django Website To Share Clips Utilizing Docker!
 This is a Django webapp I made to allow friends to share clips with each other! For quick setup, the app is containerized in docker. Supports uploading mp4, mkv, and webm files with custom passcode. Main page is sorted by most recent clips. Upload page has copy direct link button to the uploaded video for fast sharing!
 
-![](https://github.com/montanotavio/dockerclips/clips_demo.gif)
+![](https://github.com/montanotavio/dockerclips/blob/main/clips_demo.gif)
 
 ## Deployment
 
