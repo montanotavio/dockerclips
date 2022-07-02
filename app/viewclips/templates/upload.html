@@ -13,8 +13,8 @@
 		document.getElementById("spinner").classList.remove("d-none")
 	}
 
-	function copyLink(path) {
-		navigator.clipboard.writeText(window.location.protocol + '//' + window.location.host + path)
+	function copyLink(vidEpoch) {
+		navigator.clipboard.writeText(window.location.protocol + '//' + window.location.host + '/directview/' + vidEpoch)
 		document.getElementById("copy").innerText = "Copied!"
 	}
 
@@ -51,13 +51,11 @@
 							<source src="{{ video.file.url }}" type="video/mp4"> </source>
 						</video>
 					</div>
-					<a id="copy" class="btn btn-dark my-4" onClick="copyLink('{{video.file.url}}')">Copy Video Link</a>
+					<a id="copy" class="btn btn-dark my-4" onClick="copyLink('{{video.epoch}}')">Copy Video Link</a>
 					<a id="home" class="btn btn-dark my-4" href="{% url 'home' %}">Return to Homepage</a>
 			{% else %}
 				<p>No clips added</p>
 			{% endif %}
-
 		</div>
 	
-
 {% endblock %}

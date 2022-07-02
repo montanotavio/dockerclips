@@ -58,5 +58,11 @@ def upload(request):
 			return render(request, 'upload.html', {'file_submitted': True, 'video': newVideoClip})
 	return render(request, 'upload.html')
 
+def directview(request, vidEpoch='0'):
+	if vidEpoch == '0':
+		videoClip = VideoClip.objects.order_by('-creation_time').first()
+	else:
+		videoClip = VideoClip.objects.filter(epoch=float(vidEpoch)).first()
+	return render(request, 'directview.html', {'video': videoClip})
 def about(request):
 	return render(request, 'about.html', {})
