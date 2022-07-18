@@ -9,7 +9,7 @@ import time,os
 # Create your views here.
 def home(request):
 	current_time = time.strftime('%B %-d, %Y %-I:%M:%S %p', time.localtime())
-	allVideoClips = VideoClip.objects.order_by('epoch').reverse().all()
+	allVideoClips = VideoClip.objects.order_by('epoch').reverse().filter(feed=True)
 	# get files in dir
 	filenames = os.listdir(settings.MEDIA_ROOT)
 	# sort by modification time
@@ -64,5 +64,6 @@ def directview(request, vidEpoch='0'):
 	else:
 		videoClip = VideoClip.objects.filter(epoch=float(vidEpoch)).first()
 	return render(request, 'directview.html', {'video': videoClip})
+
 def about(request):
 	return render(request, 'about.html', {})
