@@ -3,10 +3,11 @@
 
 {% block header %}
 <meta property="og:title" content="{{video.title}}">
-<meta property="og:type" content="video">
-<meta property="og:url" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{video.file.url}}">
-<meta property="og:video" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{video.file.url}}">
-<meta property="og:video:type" content="video">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{video.file.url}}.jpg">
+<meta property="og:type" content="video.other">
+<meta property="og:video:url" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{video.file.url}}">
+<meta property="og:video:width" content="1280">
+<meta property="og:video:height" content="720">
 {% endblock %}
 
 {% block content %}
@@ -18,7 +19,7 @@
             <h5 class="fst-italic fw-lighter">Clipped on {{video.date}} by {{video.uploader}}</h5>
         </div>
         <div class="pb-5">
-            <video class="w-100 h-100" preload="metadata" controls>
+            <video class="w-100 h-100" preload="none" poster="{{video.file.url}}.jpg" onclick="this.play();" controls>
                 <source src="{{ video.file.url }}" type="video/mp4"></source>
             </video>
         </div>

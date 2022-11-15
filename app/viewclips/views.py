@@ -4,6 +4,7 @@ from django.conf import settings
 from .models import VideoClip
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hashlib import sha256 as hasher
+from subprocess import Popen
 import time,os
 
 # Create your views here.
@@ -55,6 +56,9 @@ def upload(request):
 				date = time.strftime('%B %-d, %Y %-I:%M %p', time.localtime(epoch))
 				newVideoClip = VideoClip(title=title,date=date,epoch=epoch,filename=filename,file=video)
 				newVideoClip.save()
+			# asynchronously run ffmpeg to generate thumbnail
+			location = newVideoClip.file.url.replace("static","vol/web")
+			Popen(["ffmpeg", "-i", location, "-vf", "select=eq(n\,0)", "-vframes", "1", f'{location}.jpg'])
 			return render(request, 'upload.html', {'file_submitted': True, 'video': newVideoClip})
 	return render(request, 'upload.html')
 
